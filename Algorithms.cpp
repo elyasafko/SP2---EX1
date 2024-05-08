@@ -69,13 +69,16 @@ namespace ariel
         
         string isBipartite(Graph &graph)
         {
+            if (graph.getVerticesCount() == 0)
+            {
+                return "The graph is bipartite: A={}, B={}";
+            }
             // Perform BFS starting from the first vertex
             queue<int> q; // Queue to store vertices
             vector<int> color(graph.getVerticesCount(), -1); // Color array to mark the vertices
 
             // Vectors to store the two groups
             vector<int> groupA, groupB;
-
             color[0] = 0;
             groupA.push_back(0); // Start vertex 0 in group A
             q.push(0);
@@ -103,7 +106,7 @@ namespace ariel
                     } 
                     else if (color[(size_t)neighbor] == color[u]) // If the neighbor has the same color as the current vertex
                     {
-                        return "The graph is not bipartite.";
+                        return "The graph is not bipartite";
                     }
                 }
             }
@@ -117,8 +120,6 @@ namespace ariel
 
             return result;
         }
-
-
 
         string shortestPath(Graph graph, size_t src, size_t dest)
         {
@@ -138,7 +139,11 @@ namespace ariel
 
             if (graph.haveNegativeWeight() && graph.isWeighted() && graph.isDirected()) // Bellman-Ford algorithm
             {
-                cout << "Bellman-Ford algorithm" << endl;
+                //cout << "Bellman-Ford algorithm" << endl;
+                if (negativeCycle(graph) == "The graph contains a negative cycle.") // Check for negative cycles
+                {
+                    return "The graph contains a negative cycle.";
+                }
                 vector<int> dist(numNodes, INT_MAX);
                 dist[src] = 0;
 
@@ -173,7 +178,7 @@ namespace ariel
 
                 if (dist[dest] == INT_MAX)
                 {
-                    return "There is no path from src to dest.";
+                    return "There is no path from " + to_string(src) + " to " + to_string(dest);
                 }
                 else
                 {
@@ -204,7 +209,7 @@ namespace ariel
             }
             else if (graph.isWeighted()) // Dijkstra's algorithm
             {
-                cout << "Dijkstra's algorithm" << endl;
+                //cout << "Dijkstra's algorithm" << endl;
                 vector<int> dist(numNodes, INT_MAX);
                 vector<int> pred(numNodes, -1); // To keep track of the path
 
@@ -245,7 +250,7 @@ namespace ariel
 
                 if (dist[dest] == INT_MAX)
                 {
-                    return  "There is no path from src to dest.";
+                    return "There is no path from " + to_string(src) + " to " + to_string(dest);
                 }
                 else
                 {
@@ -266,7 +271,7 @@ namespace ariel
             }
             else // bfs
             {
-                cout << "BFS algorithm" << endl;
+                //cout << "BFS algorithm" << endl;
                 vector<int> dist(graph.getVerticesCount(), INT_MAX); // To keep track of the distance
                 vector<int> pred(graph.getVerticesCount(), -1);     // To keep track of the path
                 dist[src] = 0;
@@ -290,7 +295,7 @@ namespace ariel
 
                 if (dist[dest] == INT_MAX) // If the destination vertex has not been reached
                 {
-                    return "There is no path from src to dest.";
+                    return "There is no path from " + to_string(src) + " to " + to_string(dest);
                 }
                 else
                 {
@@ -380,7 +385,6 @@ namespace ariel
                 return false;
             }
         }
-
 
        string negativeCycle(Graph graph)
         {
