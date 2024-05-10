@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <vector>
+#include <limits.h>
 
 using namespace std;
 
@@ -27,6 +28,7 @@ namespace ariel
         bool haveNegativeWeight();
         vector<int> getNeighbors(size_t vertex);
         int getWeight(size_t src, size_t dest);
+        void setDirect(bool directed);
     };
 }
 

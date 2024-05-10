@@ -3,6 +3,7 @@
         "stdexcept": "cpp",
         "iostream": "cpp",
         "queue": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "limits": "cpp"
     }
 }

@@ -132,10 +132,38 @@ namespace ariel
     {
         if (src >= adjacencyMatrix.size() || dest >= adjacencyMatrix[src].size()) {
             // Handle out-of-bounds access
-            return -1; // Or some other default value or error indication
+            return INT_MAX;
         }
         return adjacencyMatrix[src][dest];
     }
 
+    void Graph::setDirect(bool directed)
+    {
+        direct = directed;
+        for (size_t i = 0; i < adjacencyMatrix.size(); i++)
+        {
+            for (size_t j = i; j < adjacencyMatrix[i].size(); j++)
+            {
+                if (!directed) // if not directed need to make the matrix symmetric
+                {
+                    if (adjacencyMatrix[i][j] != adjacencyMatrix[j][i])
+                    {
+                        if (adjacencyMatrix[i][j] == 0)
+                        {
+                            adjacencyMatrix[i][j] = adjacencyMatrix[j][i];
+                        }
+                        else if (adjacencyMatrix[j][i] == 0)
+                        {
+                            adjacencyMatrix[j][i] = adjacencyMatrix[i][j];
+                        }
+                        else
+                        {
+                            throw invalid_argument("Invalid graph: The graph is not symmetric.");
+                        }
+                    }
+                }
+            }
+        }
+    }
 } 
 

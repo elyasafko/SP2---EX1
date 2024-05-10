@@ -1,29 +1,54 @@
-# מטלה 1 - גרפים (Classes and Namespaces)
+# Graph Class and Algorithms
 
-המטרה שלכם במטלה הזאת היא ליצור מחלקה שמייצגת גרף ולממש אלגוריתמים על הגרפים (זה הזמן להזכר בקורס אלגוריתמים 1).
+This project includes a comprehensive `Graph` class and several sophisticated graph algorithms. It is implemented in C++ and supports both directed and undirected graphs, with capabilities for handling weighted and unweighted edges.
 
-במטלה הזאת הייצוג של הגרף שלכם יתבצע בעזרת מטריצת שכנויות - https://he.wikipedia.org/wiki/%D7%9E%D7%98%D7%A8%D7%99%D7%A6%D7%AA_%D7%A9%D7%9B%D7%A0%D7%95%D7%AA.
+## Graph Class
 
-הגרף יכול להיות גרף מכוון ולא מכוון וגם גרף ממושקל. מטריצת השכנויות חייבת להיות מטריצה ריבועית.
+### Overview
 
-עליכם לכתוב את הקבצים הבאים:
+The Graph library manages graphs represented as adjacency matrices. It supports operations such as loading graphs, printing graph details, and manipulating graph properties.
 
-```
-Graph.cpp
-Algorithms.cpp
-```
+### Functions
 
-הקובץ `Graph.cpp` מכיל מחלקה המייצגת גרף.
-המחלקה מכילה את הפעולות `loadGraph` המקבלת מטריצת שכנויות וטוענת אותה לתוך הגרף ו-`printGraph` שמדפיסה את הייצוג של הגרף (הפורמט לבחירתכם, ראו דוגמה ב-`Demo.cpp`).
+- **Constructor: Graph()**: Initializes a new instance of the Graph class.
+- **loadGraph(vector<vector<int>> graph, bool directed)**: Loads a graph from a square matrix, validating the matrix and setting the graph's directed nature.
+- **printGraph()**: Outputs the number of vertices and edges in the graph.
+- **getEdgesCount()**: Returns the number of edges, considering the graph's directed or undirected nature.
+- **getVerticesCount()**: Returns the number of vertices, which corresponds to the dimension of the adjacency matrix.
+- **isWeighted()**: Checks if the graph has any weights other than 1 or -1, indicating it is weighted.
+- **haveNegativeWeight()**: Determines if any edges have negative weights.
+- **getNeighbors(size_t vertex)**: Lists all vertices connected directly by an edge to the specified vertex.
+- **isDirected()**: Indicates whether the graph is directed.
+- **getWeight(size_t src, size_t dest)**: Retrieves the weight of the edge between specified vertices.
+- **setDirect(bool directed)**: Adjusts the graph to be directed or undirected, ensuring symmetry in the adjacency matrix for undirected graphs.
 
-הקובץ `Algorithms.cpp` מכיל מימושים לאלגוריתמים על גרפים. ביניהם:
+## Graph Algorithms Library
 
-- `isConnected(g)` - האלגוריתם מקבל גרף ומחזיר 1 אם הגרף קשיר (אחרת מחזיר 0).
-- `shortestPath(g,start,end)` - האלגוריתם מקבל גרף, קודקוד התחלה וקודקוד סיום ומחזיר את המסלול הקל ביותר (במקרה שהגרף לא ממושקל - הקצר ביותר) בין שני הקודקודים. במידה ואין מסלול כזה, האלגוריתם יחזיר -1.
-- `isContainsCycle(g)` - האלגוריתם מקבל גרף ומדפיס מעגל כלשהו. אם לא קיים מעגל בגרף, האלגוריתם יחזיר 0.
-- `isBipartite(g)` - האלגוריתם מקבל גרף ומחזיר את החלוקה של הגרף לגרף דו-צדדי. אם אי אפשר לחלק את הגרף, האלגוריתם יחזיר 0.
-- `negativeCycle(g)` - האלגוריתם מקבל גרף ומוצא מעגל שלילי (כלומר מעגל שסכום המשקלים של הצלעות שלילי). אם לא קיים מעגל כזה, האלגוריתם ידפיס שלא קיים מעגל שלילי.
+### Features
 
-הקובץ `Demo.cpp` מכיל דוגמאות של קלטים ופלטים.
-עליכם לכתוב בתחילת כל קובץ את מספר תעודת הזהות שלכם ואת המייל. כמו כן, בנוסף לקבצים של המטלה אתם נדרשים להגיש גם קובץ README המתאר את אופן המימוש ואת החלוקה שביצעתם בקוד (סוג של מדריך משתמש). אי עמידה בהנחיות תגרור הפחתה בציון. בהצלחה!
-  
+#### Connectivity Functions
+
+- **isConnected(Graph graph)**:
+  - For undirected graphs, checks connectivity using DFS to ensure all nodes are reachable from any node.
+  - For directed graphs, assesses strong connectivity and weak connectivity by modifying edge directionality temporarily.
+
+#### Bipartiteness Check
+
+- **isBipartite(Graph &graph)**:
+  - Uses BFS to determine if the graph can be two-colored, which would confirm it as bipartite, and identifies the vertex sets for each color.
+
+#### Shortest Path Algorithms
+
+- **shortestPath(Graph graph, size_t src, size_t dest)**:
+  - Finds the shortest path using Dijkstra's algorithm for non-negative weight graphs, Bellman-Ford for negative weights, and BFS for unweighted graphs.
+
+#### Cycle Detection
+
+- **isContainsCycle(Graph &graph)**:
+  - Utilizes DFS to detect the presence of any cycles in the graph, capable of returning the path of the cycle if found.
+
+#### Negative Cycle Detection
+
+- **negativeCycle(Graph graph)**:
+  - Employs a modified Bellman-Ford algorithm to detect negative weight cycles, crucial for accurate application of certain shortest path algorithms.
+
